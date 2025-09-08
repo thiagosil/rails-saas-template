@@ -1,0 +1,20 @@
+david_session:
+  user: david
+  token: AxJs94fteQ5Autv2VrKsH68c
+  user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2 Safari/605.1.15"
+  ip_address: "127.0.0.1"
+  last_active_at: <%= 30.minutes.ago %>
+
+jason_session:
+  user: jason
+  token: BxKt85gufR6Butw3WsLtI79d
+  user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+  ip_address: "192.168.1.100"
+  last_active_at: <%= 2.hours.ago %>
+
+old_session:
+  user: david
+  token: CxLu96hvfS7Cvux4XtMuJ80e
+  user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1"
+  ip_address: "10.0.0.1"
+  last_active_at: <%= 3.hours.ago %>

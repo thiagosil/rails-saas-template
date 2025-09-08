@@ -1,0 +1,36 @@
+<% password_digest = BCrypt::Password.create("secret123456") %>
+
+david:
+  name: David
+  email: david@example.com
+  password_digest: <%= password_digest %>
+  role: user
+  active: true
+
+jason:
+  name: Jason
+  email: jason@example.com
+  password_digest: <%= password_digest %>
+  role: user
+  active: true
+
+sam:
+  name: Sam
+  email: sam@example.com
+  password_digest: <%= password_digest %>
+  role: user
+  active: false
+
+bot:
+  name: Test Bot
+  email: bot@example.com
+  bot_token: <%= User.generate_bot_token %>
+  role: bot
+  active: true
+
+inactive_bot:
+  name: Inactive Bot
+  email: inactive-bot@example.com
+  bot_token: <%= User.generate_bot_token %>
+  role: bot
+  active: false
