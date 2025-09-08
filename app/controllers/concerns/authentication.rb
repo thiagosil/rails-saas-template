@@ -61,7 +61,7 @@ module Authentication
     end
 
     def post_authenticating_url
-      session.delete(:return_to_after_authenticating) || root_path
+      session.delete(:return_to_after_authenticating) || dashboard_path
     end
 
     def reset_authentication

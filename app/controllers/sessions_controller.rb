@@ -1,34 +1,27 @@
 class SessionsController < ApplicationController
   allow_unauthenticated_access only: %i[ new create ]
-  before_action :set_session, only: %i[ show destroy ]
+  rate_limit to: 10, within: 3.minutes, only: :create, with: -> { render_rejection :too_many_requests }
 
   def new
-    @user = User.new
   end
 
   def create
-    if @user = User.find_by(email: params[:email])
-      if @user.authenticate(params[:password])
-        @session = start_new_session_for(@user)
-        redirect_to post_authenticating_url, notice: "Signed in successfully"
-      else
-        flash.now[:alert] = "Try another email address or password."
-        render :new, status: :unprocessable_entity
-      end
+    if user = User.authenticate_by(email: params[:email], password: params[:password])
+      start_new_session_for user
+      redirect_to post_authenticating_url
     else
-      flash.now[:alert] = "Try another email address or password."
-      render :new, status: :unprocessable_entity
+      render_rejection :unauthorized
     end
   end
 
   def destroy
-    @session.destroy
     reset_authentication
-    redirect_to root_path, notice: "Signed out successfully"
+    redirect_to root_path
   end
 
   private
-    def set_session
-      @session = Current.user.sessions.find(params[:id])
+    def render_rejection(status)
+      flash.now[:alert] = "Invalid email or password."
+      render :new, status: status
     end
 end

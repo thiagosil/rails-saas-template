@@ -1,0 +1,35 @@
+<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+    <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company" class="mx-auto h-10 w-auto" />
+    <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Rails SaaS Template</h2>
+    <p class="mt-2 text-center text-sm text-gray-600">Welcome to your application</p>
+  </div>
+
+  <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+    <div class="space-y-6">
+      <% if signed_in? %>
+        <div class="rounded-md bg-green-50 p-4">
+          <div class="flex">
+            <div class="ml-3">
+              <div class="text-sm text-green-700">
+                Signed in as <%= Current.user.name %> (<%= Current.user.email %>)
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div>
+          <%= link_to "Sign out", session_path, method: :delete, class: "flex w-full justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-red-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600" %>
+        </div>
+      <% else %>
+        <div>
+          <%= link_to "Sign up", new_registration_path, class: "flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
+        </div>
+        
+        <div>
+          <%= link_to "Sign in", new_session_path, class: "flex w-full justify-center rounded-md bg-gray-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-gray-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
