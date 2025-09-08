@@ -4,19 +4,14 @@ module Authentication
 
   included do
     before_action :require_authentication
-    before_action :deny_bots
     helper_method :signed_in?
 
-    protect_from_forgery with: :exception, unless: -> { authenticated_by.bot_key? }
+    protect_from_forgery with: :exception
   end
 
   class_methods do
     def allow_unauthenticated_access(**options)
       skip_before_action :require_authentication, **options
-    end
-
-    def allow_bot_access(**options)
-      skip_before_action :deny_bots, **options
     end
 
     def require_unauthenticated_access(**options)
@@ -31,19 +26,12 @@ module Authentication
     end
 
     def require_authentication
-      restore_authentication || bot_authentication || request_authentication
+      restore_authentication || request_authentication
     end
 
     def restore_authentication
       if session = find_session_by_cookie
         resume_session session
-      end
-    end
-
-    def bot_authentication
-      if params[:bot_key].present? && bot = User.authenticate_bot(params[:bot_key].strip)
-        Current.user = bot
-        set_authenticated_by(:bot_key)
       end
     end
 
@@ -69,7 +57,6 @@ module Authentication
 
     def authenticated_as(session)
       Current.user = session.user
-      set_authenticated_by(:session)
       cookies.signed.permanent[:session_token] = { value: session.token, httponly: true, same_site: :lax }
     end
 
@@ -79,17 +66,5 @@ module Authentication
 
     def reset_authentication
       cookies.delete(:session_token)
-    end
-
-    def deny_bots
-      head :forbidden if authenticated_by.bot_key?
-    end
-
-    def set_authenticated_by(method)
-      @authenticated_by = method.to_s.inquiry
-    end
-
-    def authenticated_by
-      @authenticated_by ||= "".inquiry
     end
 end
